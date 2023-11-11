@@ -8,21 +8,24 @@
 import Foundation
 import InterposeKit
 
-@objc
+@objcMembers
 public class DTURLSessionMonitor: NSObject {
     private var session: URLSession
-    var taskDatas: [URLSessionTask: DTURLSessionTaskData] = [:]
+    var taskDatas: NSMutableDictionary = [:]
+  //  var taskDatas: [URLSessionTask: DTURLSessionTaskData] = [:]
     let queue = DispatchQueue(
         label: "URLSessionTrackerQueue",
         attributes: .concurrent
     )
 
+    @objc
     public init(session: URLSession = .shared) {
         self.session = session
         self.taskDatas = [:]
         // Setup swizzling if needed
     }
 
+    @objc
     public static func startLogging() {
         do {
             let originalSelector = #selector(URLSession.dataTask(with:completionHandler:) as (URLSession) -> (URLRequest, @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask)
@@ -66,14 +69,14 @@ private extension DTURLSessionMonitor {
     func getTaskData(for sessionTask: URLSessionTask) -> DTURLSessionTaskData? {
         var taskData: DTURLSessionTaskData?
         queue.sync {
-            taskData = self.taskDatas[sessionTask]
+       //     taskData = self.taskDatas[sessionTask]
         }
         return taskData
     }
 
     func cleanup(for task: URLSessionTask) {
         queue.async(flags: .barrier) {
-            self.taskDatas.removeValue(forKey: task)
+     //       self.taskDatas.removeValue(forKey: task)
         }
     }
 }
@@ -85,8 +88,8 @@ extension DTURLSessionMonitor {
             let fileURL = self.getFileURL()
             var dataToWrite = [String]()
             for (_, taskData) in self.taskDatas {
-                let line = self.formatTaskDataForFile(taskData)
-                dataToWrite.append(line)
+        //        let line = self.formatTaskDataForFile(taskData)
+         //       dataToWrite.append(line)
             }
             do {
                 try dataToWrite.joined(separator: "\n").write(to: fileURL, atomically: true, encoding: .utf8)
