@@ -13,6 +13,8 @@
 		1661193B2AFD893C00AB058E /* DTNetworkMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 1661192F2AFD893C00AB058E /* DTNetworkMonitor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1661194D2AFD959E00AB058E /* DTURLSessionTaskData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1661194C2AFD959E00AB058E /* DTURLSessionTaskData.swift */; };
 		1661194F2AFD95C200AB058E /* DTURLSessionTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1661194E2AFD95C200AB058E /* DTURLSessionTracker.swift */; };
+		16F668C52AFFB70D005ACF2B /* URLSessionSwizzlingExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F668C42AFFB70D005ACF2B /* URLSessionSwizzlingExtensions.swift */; };
+		16F668C72AFFB76E005ACF2B /* URLSessionTaskTrackingExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F668C62AFFB76E005ACF2B /* URLSessionTaskTrackingExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +34,8 @@
 		166119392AFD893C00AB058E /* DTNetworkMonitorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTNetworkMonitorTests.swift; sourceTree = "<group>"; };
 		1661194C2AFD959E00AB058E /* DTURLSessionTaskData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTURLSessionTaskData.swift; sourceTree = "<group>"; };
 		1661194E2AFD95C200AB058E /* DTURLSessionTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTURLSessionTracker.swift; sourceTree = "<group>"; };
+		16F668C42AFFB70D005ACF2B /* URLSessionSwizzlingExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionSwizzlingExtensions.swift; sourceTree = "<group>"; };
+		16F668C62AFFB76E005ACF2B /* URLSessionTaskTrackingExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionTaskTrackingExtensions.swift; sourceTree = "<group>"; };
 		2F5EAB5E88D78B97A2BD6596 /* Pods-DTNetworkMonitor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DTNetworkMonitor.debug.xcconfig"; path = "Target Support Files/Pods-DTNetworkMonitor/Pods-DTNetworkMonitor.debug.xcconfig"; sourceTree = "<group>"; };
 		A480B4FB15D1B88C0E42A05B /* Pods_DTNetworkMonitor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DTNetworkMonitor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE09756C846B1ACEB3E90E43 /* Pods-DTNetworkMonitor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DTNetworkMonitor.release.xcconfig"; path = "Target Support Files/Pods-DTNetworkMonitor/Pods-DTNetworkMonitor.release.xcconfig"; sourceTree = "<group>"; };
@@ -63,7 +67,6 @@
 				2F5EAB5E88D78B97A2BD6596 /* Pods-DTNetworkMonitor.debug.xcconfig */,
 				EE09756C846B1ACEB3E90E43 /* Pods-DTNetworkMonitor.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -93,6 +96,8 @@
 				1661192F2AFD893C00AB058E /* DTNetworkMonitor.h */,
 				1661194C2AFD959E00AB058E /* DTURLSessionTaskData.swift */,
 				1661194E2AFD95C200AB058E /* DTURLSessionTracker.swift */,
+				16F668C42AFFB70D005ACF2B /* URLSessionSwizzlingExtensions.swift */,
+				16F668C62AFFB76E005ACF2B /* URLSessionTaskTrackingExtensions.swift */,
 			);
 			path = DTNetworkMonitor;
 			sourceTree = "<group>";
@@ -252,6 +257,8 @@
 			files = (
 				1661194D2AFD959E00AB058E /* DTURLSessionTaskData.swift in Sources */,
 				1661194F2AFD95C200AB058E /* DTURLSessionTracker.swift in Sources */,
+				16F668C72AFFB76E005ACF2B /* URLSessionTaskTrackingExtensions.swift in Sources */,
+				16F668C52AFFB70D005ACF2B /* URLSessionSwizzlingExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

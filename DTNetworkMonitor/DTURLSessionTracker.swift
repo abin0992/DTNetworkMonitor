@@ -9,8 +9,8 @@ import Foundation
 import RSSwizzle
 
 public class DTURLSessionTracker {
-    private var taskDatas: [URLSessionTask: DTURLSessionTaskData] = [:]
-    private let queue = DispatchQueue(
+    var taskDatas: [URLSessionTask: DTURLSessionTaskData] = [:]
+    let queue = DispatchQueue(
         label: "URLSessionTrackerQueue",
         attributes: .concurrent
     )
@@ -169,37 +169,6 @@ private extension DTURLSessionTracker {
     }
 
 
-}
-extension DTURLSessionTracker {
-
-    func trackStart(of sessionTask: URLSessionTask) {
-        let taskData = DTURLSessionTaskData(
-            initialURL: sessionTask.originalRequest?.url ?? URL(string: "https://example.com")!,
-            startTime: Date()
-        )
-        queue.async(flags: .barrier) {
-            self.taskDatas[sessionTask] = taskData
-        }
-    }
-
-    func trackCompletion(of sessionTask: URLSessionTask, wasSuccessful: Bool) {
-        queue.async(flags: .barrier) {
-            guard let taskData = self.taskDatas[sessionTask] else { return }
-            let endTime = Date()
-            let duration = endTime.timeIntervalSince(taskData.startTime)
-            let finalURL = taskData.finalURL ?? taskData.initialURL
-            print("\(taskData.initialURL), \(duration * 1000)ms, \(finalURL), \(wasSuccessful ? "SUCCESS" : "FAILURE")")
-
-            self.taskDatas[sessionTask]?.endTime = endTime
-            self.taskDatas[sessionTask]?.wasSuccessful = wasSuccessful
-        }
-    }
-
-    func trackRedirection(of sessionTask: URLSessionTask, to finalURL: URL) {
-        queue.async(flags: .barrier) {
-            self.taskDatas[sessionTask]?.finalURL = finalURL
-        }
-    }
 }
 
 private extension DTURLSessionTracker {
