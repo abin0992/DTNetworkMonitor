@@ -7,9 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		08B78E346E5BD638C80BB266 /* Pods_DTNetworkMonitor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A480B4FB15D1B88C0E42A05B /* Pods_DTNetworkMonitor.framework */; };
 		166119352AFD893C00AB058E /* DTNetworkMonitor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1661192C2AFD893C00AB058E /* DTNetworkMonitor.framework */; };
 		1661193A2AFD893C00AB058E /* DTNetworkMonitorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166119392AFD893C00AB058E /* DTNetworkMonitorTests.swift */; };
 		1661193B2AFD893C00AB058E /* DTNetworkMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 1661192F2AFD893C00AB058E /* DTNetworkMonitor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1661194D2AFD959E00AB058E /* DTURLSessionTaskData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1661194C2AFD959E00AB058E /* DTURLSessionTaskData.swift */; };
+		1661194F2AFD95C200AB058E /* DTURLSessionTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1661194E2AFD95C200AB058E /* DTURLSessionTracker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +30,11 @@
 		1661192F2AFD893C00AB058E /* DTNetworkMonitor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DTNetworkMonitor.h; sourceTree = "<group>"; };
 		166119342AFD893C00AB058E /* DTNetworkMonitorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DTNetworkMonitorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		166119392AFD893C00AB058E /* DTNetworkMonitorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTNetworkMonitorTests.swift; sourceTree = "<group>"; };
+		1661194C2AFD959E00AB058E /* DTURLSessionTaskData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTURLSessionTaskData.swift; sourceTree = "<group>"; };
+		1661194E2AFD95C200AB058E /* DTURLSessionTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTURLSessionTracker.swift; sourceTree = "<group>"; };
+		2F5EAB5E88D78B97A2BD6596 /* Pods-DTNetworkMonitor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DTNetworkMonitor.debug.xcconfig"; path = "Target Support Files/Pods-DTNetworkMonitor/Pods-DTNetworkMonitor.debug.xcconfig"; sourceTree = "<group>"; };
+		A480B4FB15D1B88C0E42A05B /* Pods_DTNetworkMonitor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DTNetworkMonitor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EE09756C846B1ACEB3E90E43 /* Pods-DTNetworkMonitor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DTNetworkMonitor.release.xcconfig"; path = "Target Support Files/Pods-DTNetworkMonitor/Pods-DTNetworkMonitor.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08B78E346E5BD638C80BB266 /* Pods_DTNetworkMonitor.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -48,12 +57,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		077AD5D4081117F5179F8B13 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				2F5EAB5E88D78B97A2BD6596 /* Pods-DTNetworkMonitor.debug.xcconfig */,
+				EE09756C846B1ACEB3E90E43 /* Pods-DTNetworkMonitor.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		166119222AFD893C00AB058E = {
 			isa = PBXGroup;
 			children = (
 				1661192E2AFD893C00AB058E /* DTNetworkMonitor */,
 				166119382AFD893C00AB058E /* DTNetworkMonitorTests */,
 				1661192D2AFD893C00AB058E /* Products */,
+				077AD5D4081117F5179F8B13 /* Pods */,
+				2E760CB81FD2823F94140B2B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -70,6 +91,8 @@
 			isa = PBXGroup;
 			children = (
 				1661192F2AFD893C00AB058E /* DTNetworkMonitor.h */,
+				1661194C2AFD959E00AB058E /* DTURLSessionTaskData.swift */,
+				1661194E2AFD95C200AB058E /* DTURLSessionTracker.swift */,
 			);
 			path = DTNetworkMonitor;
 			sourceTree = "<group>";
@@ -80,6 +103,14 @@
 				166119392AFD893C00AB058E /* DTNetworkMonitorTests.swift */,
 			);
 			path = DTNetworkMonitorTests;
+			sourceTree = "<group>";
+		};
+		2E760CB81FD2823F94140B2B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A480B4FB15D1B88C0E42A05B /* Pods_DTNetworkMonitor.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -100,6 +131,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1661193E2AFD893C00AB058E /* Build configuration list for PBXNativeTarget "DTNetworkMonitor" */;
 			buildPhases = (
+				0114FDD351E75E9DBDD62864 /* [CP] Check Pods Manifest.lock */,
 				166119272AFD893C00AB058E /* Headers */,
 				166119282AFD893C00AB058E /* Sources */,
 				166119292AFD893C00AB058E /* Frameworks */,
@@ -139,11 +171,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
+				CLASSPREFIX = DT;
 				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					1661192B2AFD893C00AB058E = {
 						CreatedOnToolsVersion = 15.0;
+						LastSwiftMigration = 1500;
 					};
 					166119332AFD893C00AB058E = {
 						CreatedOnToolsVersion = 15.0;
@@ -186,11 +220,38 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0114FDD351E75E9DBDD62864 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DTNetworkMonitor-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		166119282AFD893C00AB058E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1661194D2AFD959E00AB058E /* DTURLSessionTaskData.swift in Sources */,
+				1661194F2AFD95C200AB058E /* DTURLSessionTracker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,7 +401,9 @@
 		};
 		1661193F2AFD893C00AB058E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2F5EAB5E88D78B97A2BD6596 /* Pods-DTNetworkMonitor.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -363,6 +426,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -370,7 +434,9 @@
 		};
 		166119402AFD893C00AB058E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EE09756C846B1ACEB3E90E43 /* Pods-DTNetworkMonitor.release.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -401,6 +467,7 @@
 		166119422AFD893C00AB058E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -416,6 +483,7 @@
 		166119432AFD893C00AB058E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
