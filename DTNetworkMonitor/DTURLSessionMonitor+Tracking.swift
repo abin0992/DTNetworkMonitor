@@ -7,7 +7,13 @@
 
 import Foundation
 
-extension DTURLSessionTracker {
+protocol DTURLSessionMonitorDelegate: AnyObject {
+    func trackStart(of sessionTask: URLSessionTask)
+    func trackCompletion(of sessionTask: URLSessionTask, wasSuccessful: Bool)
+    func trackRedirection(of sessionTask: URLSessionTask, to finalURL: URL)
+}
+
+extension DTURLSessionMonitor: DTURLSessionMonitorDelegate {
 
     func trackStart(of sessionTask: URLSessionTask) {
         let taskData = DTURLSessionTaskData(

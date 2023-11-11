@@ -12,9 +12,10 @@
 		1661193A2AFD893C00AB058E /* DTNetworkMonitorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166119392AFD893C00AB058E /* DTNetworkMonitorTests.swift */; };
 		1661193B2AFD893C00AB058E /* DTNetworkMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 1661192F2AFD893C00AB058E /* DTNetworkMonitor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1661194D2AFD959E00AB058E /* DTURLSessionTaskData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1661194C2AFD959E00AB058E /* DTURLSessionTaskData.swift */; };
-		1661194F2AFD95C200AB058E /* DTURLSessionTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1661194E2AFD95C200AB058E /* DTURLSessionTracker.swift */; };
 		16F668C52AFFB70D005ACF2B /* URLSessionSwizzlingExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F668C42AFFB70D005ACF2B /* URLSessionSwizzlingExtensions.swift */; };
-		16F668C72AFFB76E005ACF2B /* URLSessionTaskTrackingExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F668C62AFFB76E005ACF2B /* URLSessionTaskTrackingExtensions.swift */; };
+		16F668C72AFFB76E005ACF2B /* DTURLSessionMonitor+Tracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F668C62AFFB76E005ACF2B /* DTURLSessionMonitor+Tracking.swift */; };
+		16F668CC2AFFBDA3005ACF2B /* DTURLSessionMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1661194E2AFD95C200AB058E /* DTURLSessionMonitor.swift */; };
+		16F668CE2AFFBE14005ACF2B /* RSSwizzle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16F668CD2AFFBE14005ACF2B /* RSSwizzle.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,9 +34,11 @@
 		166119342AFD893C00AB058E /* DTNetworkMonitorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DTNetworkMonitorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		166119392AFD893C00AB058E /* DTNetworkMonitorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTNetworkMonitorTests.swift; sourceTree = "<group>"; };
 		1661194C2AFD959E00AB058E /* DTURLSessionTaskData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTURLSessionTaskData.swift; sourceTree = "<group>"; };
-		1661194E2AFD95C200AB058E /* DTURLSessionTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTURLSessionTracker.swift; sourceTree = "<group>"; };
+		1661194E2AFD95C200AB058E /* DTURLSessionMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTURLSessionMonitor.swift; sourceTree = "<group>"; };
 		16F668C42AFFB70D005ACF2B /* URLSessionSwizzlingExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionSwizzlingExtensions.swift; sourceTree = "<group>"; };
-		16F668C62AFFB76E005ACF2B /* URLSessionTaskTrackingExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionTaskTrackingExtensions.swift; sourceTree = "<group>"; };
+		16F668C62AFFB76E005ACF2B /* DTURLSessionMonitor+Tracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DTURLSessionMonitor+Tracking.swift"; sourceTree = "<group>"; };
+		16F668C82AFFBCB9005ACF2B /* RSSwizzle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RSSwizzle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		16F668CD2AFFBE14005ACF2B /* RSSwizzle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RSSwizzle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F5EAB5E88D78B97A2BD6596 /* Pods-DTNetworkMonitor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DTNetworkMonitor.debug.xcconfig"; path = "Target Support Files/Pods-DTNetworkMonitor/Pods-DTNetworkMonitor.debug.xcconfig"; sourceTree = "<group>"; };
 		A480B4FB15D1B88C0E42A05B /* Pods_DTNetworkMonitor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DTNetworkMonitor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE09756C846B1ACEB3E90E43 /* Pods-DTNetworkMonitor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DTNetworkMonitor.release.xcconfig"; path = "Target Support Files/Pods-DTNetworkMonitor/Pods-DTNetworkMonitor.release.xcconfig"; sourceTree = "<group>"; };
@@ -46,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16F668CE2AFFBE14005ACF2B /* RSSwizzle.framework in Frameworks */,
 				08B78E346E5BD638C80BB266 /* Pods_DTNetworkMonitor.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -95,9 +99,9 @@
 			children = (
 				1661192F2AFD893C00AB058E /* DTNetworkMonitor.h */,
 				1661194C2AFD959E00AB058E /* DTURLSessionTaskData.swift */,
-				1661194E2AFD95C200AB058E /* DTURLSessionTracker.swift */,
+				1661194E2AFD95C200AB058E /* DTURLSessionMonitor.swift */,
 				16F668C42AFFB70D005ACF2B /* URLSessionSwizzlingExtensions.swift */,
-				16F668C62AFFB76E005ACF2B /* URLSessionTaskTrackingExtensions.swift */,
+				16F668C62AFFB76E005ACF2B /* DTURLSessionMonitor+Tracking.swift */,
 			);
 			path = DTNetworkMonitor;
 			sourceTree = "<group>";
@@ -113,6 +117,8 @@
 		2E760CB81FD2823F94140B2B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				16F668CD2AFFBE14005ACF2B /* RSSwizzle.framework */,
+				16F668C82AFFBCB9005ACF2B /* RSSwizzle.framework */,
 				A480B4FB15D1B88C0E42A05B /* Pods_DTNetworkMonitor.framework */,
 			);
 			name = Frameworks;
@@ -256,9 +262,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				1661194D2AFD959E00AB058E /* DTURLSessionTaskData.swift in Sources */,
-				1661194F2AFD95C200AB058E /* DTURLSessionTracker.swift in Sources */,
-				16F668C72AFFB76E005ACF2B /* URLSessionTaskTrackingExtensions.swift in Sources */,
+				16F668C72AFFB76E005ACF2B /* DTURLSessionMonitor+Tracking.swift in Sources */,
 				16F668C52AFFB70D005ACF2B /* URLSessionSwizzlingExtensions.swift in Sources */,
+				16F668CC2AFFBDA3005ACF2B /* DTURLSessionMonitor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,7 +340,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -394,7 +400,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
