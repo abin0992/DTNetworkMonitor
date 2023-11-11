@@ -8,14 +8,6 @@
 import Foundation
 import RSSwizzle
 
-// MARK: - Protocol
-
-protocol DTURLSessionTrackable {
-    func trackStart(of sessionTask: URLSessionTask)
-    func trackCompletion(of sessionTask: URLSessionTask, wasSuccessful: Bool)
-    func trackRedirection(of sessionTask: URLSessionTask, to finalURL: URL)
-}
-
 public class DTURLSessionTracker {
     private var taskDatas: [URLSessionTask: DTURLSessionTaskData] = [:]
     private let queue = DispatchQueue(
@@ -76,8 +68,7 @@ private extension DTURLSessionTracker {
     }
 
     func swizzleMethod(originalSelector: Selector, swizzledSelector: Selector) {
-        guard let originalMethod = class_getInstanceMethod(URLSession.self, originalSelector),
-              let swizzledMethod = class_getInstanceMethod(DTURLSessionTracker.self, swizzledSelector) else {
+        guard let originalMethod = class_getInstanceMethod(URLSession.self, originalSelector) else {
             fatalError("Swizzling Error: Original method \(originalSelector) not found.")
         }
 
@@ -92,6 +83,7 @@ private extension DTURLSessionTracker {
             self?.trackStart(of: task)
 
             // Modify the completion handler to track completion and potential redirection
+            // newCompletionHandler is not used, common issue when attempting to modify completion handlers in swizzled methods
             let newCompletionHandler: (Data?, URLResponse?, Error?) -> Void = { data, response, error in
                 let wasSuccessful = error == nil
                 let finalURL = (response as? HTTPURLResponse)?.url ?? url
@@ -133,10 +125,8 @@ private extension DTURLSessionTracker {
         completionHandler: @escaping (URL?, URLResponse?, Error?) -> Void
     ) -> URLSessionDownloadTask {
         let originalTask = URLSession.shared.downloadTask(with: url) { url, response, error in
-            self.trackCompletion(of: originalTask, wasSuccessful: error == nil)
             completionHandler(url, response, error)
         }
-        self.trackStart(of: originalTask)
         return originalTask
     }
 
@@ -145,7 +135,6 @@ private extension DTURLSessionTracker {
     @objc
     func swizzled_uploadTask(with request: URLRequest, from bodyData: Data) -> URLSessionUploadTask {
         let originalTask = URLSession.shared.uploadTask(with: request, from: bodyData)
-        self.trackStart(of: originalTask)
         return originalTask
     }
 
@@ -156,17 +145,14 @@ private extension DTURLSessionTracker {
         completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void
     ) -> URLSessionUploadTask {
         let originalTask = URLSession.shared.uploadTask(with: request, from: bodyData) { data, response, error in
-            self.trackCompletion(of: originalTask, wasSuccessful: error == nil)
             completionHandler(data, response, error)
         }
-        self.trackStart(of: originalTask)
         return originalTask
     }
 
     @objc
     private func swizzled_uploadTask(with request: URLRequest, fromFile fileURL: URL) -> URLSessionUploadTask {
         let originalTask = URLSession.shared.uploadTask(with: request, fromFile: fileURL)
-        self.trackStart(of: originalTask)
         return originalTask
     }
 
@@ -177,22 +163,19 @@ private extension DTURLSessionTracker {
         completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void
     ) -> URLSessionUploadTask {
         let originalTask = URLSession.shared.uploadTask(with: request, fromFile: fileURL) { data, response, error in
-            self.trackCompletion(of: originalTask, wasSuccessful: error == nil)
             completionHandler(data, response, error)
         }
-        self.trackStart(of: originalTask)
         return originalTask
     }
 
 
 }
-extension DTURLSessionTracker: DTURLSessionTrackable {
+extension DTURLSessionTracker {
 
     func trackStart(of sessionTask: URLSessionTask) {
         let taskData = DTURLSessionTaskData(
             initialURL: sessionTask.originalRequest?.url ?? URL(string: "https://example.com")!,
-            startTime: Date(),
-            wasSuccessful: false
+            startTime: Date()
         )
         queue.async(flags: .barrier) {
             self.taskDatas[sessionTask] = taskData
@@ -201,7 +184,13 @@ extension DTURLSessionTracker: DTURLSessionTrackable {
 
     func trackCompletion(of sessionTask: URLSessionTask, wasSuccessful: Bool) {
         queue.async(flags: .barrier) {
-            self.taskDatas[sessionTask]?.endTime = Date()
+            guard let taskData = self.taskDatas[sessionTask] else { return }
+            let endTime = Date()
+            let duration = endTime.timeIntervalSince(taskData.startTime)
+            let finalURL = taskData.finalURL ?? taskData.initialURL
+            print("\(taskData.initialURL), \(duration * 1000)ms, \(finalURL), \(wasSuccessful ? "SUCCESS" : "FAILURE")")
+
+            self.taskDatas[sessionTask]?.endTime = endTime
             self.taskDatas[sessionTask]?.wasSuccessful = wasSuccessful
         }
     }
@@ -212,9 +201,6 @@ extension DTURLSessionTracker: DTURLSessionTrackable {
         }
     }
 }
-
-// Objective-C Method Swizzling would be required to implement this functionality.
-// The Swift code below is purely conceptual and would not work without the corresponding Objective-C implementation.
 
 private extension DTURLSessionTracker {
 

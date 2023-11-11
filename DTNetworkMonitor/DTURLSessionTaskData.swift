@@ -12,7 +12,7 @@ public struct DTURLSessionTaskData {
     let startTime: Date
     var endTime: Date?
     var finalURL: URL?
-    var wasSuccessful: Bool
+    var wasSuccessful: Bool?
 
     var duration: TimeInterval {
         guard let endTime = endTime else { return 0 }
