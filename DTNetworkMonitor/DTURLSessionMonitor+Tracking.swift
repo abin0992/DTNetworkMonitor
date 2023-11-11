@@ -16,6 +16,7 @@ protocol DTURLSessionMonitorDelegate: AnyObject {
 extension DTURLSessionMonitor: DTURLSessionMonitorDelegate {
 
     func trackStart(of sessionTask: URLSessionTask) {
+        print("----> Network monitor - track start action \(sessionTask.originalRequest?.url)")
         let taskData = DTURLSessionTaskData(
             initialURL: sessionTask.originalRequest?.url ?? URL(string: "https://example.com")!,
             startTime: Date()
@@ -26,6 +27,7 @@ extension DTURLSessionMonitor: DTURLSessionMonitorDelegate {
     }
 
     func trackCompletion(of sessionTask: URLSessionTask, wasSuccessful: Bool) {
+        print("----> Network monitor - track complete action \(wasSuccessful)")
         queue.async(flags: .barrier) {
             guard let taskData = self.taskDatas[sessionTask] else { return }
             let endTime = Date()
@@ -39,6 +41,7 @@ extension DTURLSessionMonitor: DTURLSessionMonitorDelegate {
     }
 
     func trackRedirection(of sessionTask: URLSessionTask, to finalURL: URL) {
+        print("----> Network monitor - track redirect action \(finalURL)")
         queue.async(flags: .barrier) {
             self.taskDatas[sessionTask]?.finalURL = finalURL
         }
