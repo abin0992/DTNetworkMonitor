@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import RSSwizzle
 
 public extension URLSession {
 
@@ -64,15 +63,15 @@ public extension URLSession {
             return task ?? URLSessionDownloadTask()
         }
 
-        let swizzledImplementation = imp_implementationWithBlock(swizzleBlock)
-
-        RSSwizzle.swizzleInstanceMethod(
-            originalSelector,
-            in: URLSession.self,
-            newImpFactory: { _ in swizzledImplementation },
-            mode: .always,
-            key: nil
-        )
+//        let swizzledImplementation = imp_implementationWithBlock(swizzleBlock)
+//
+//        RSSwizzle.swizzleInstanceMethod(
+//            originalSelector,
+//            in: URLSession.self,
+//            newImpFactory: { _ in swizzledImplementation },
+//            mode: .always,
+//            key: nil
+//        )
     }
 
     func swizzleDownloadTaskWithCompletionHandler() {
@@ -113,15 +112,15 @@ public extension URLSession {
             return
         }
 
-        RSSwizzle.swizzleInstanceMethod(
-            originalSelector,
-            in: URLSession.self,
-            newImpFactory: { _ in
-                method_getImplementation(swizzledMethod)
-            },
-            mode: .always,
-            key: nil
-        )
+//        RSSwizzle.swizzleInstanceMethod(
+//            originalSelector,
+//            in: URLSession.self,
+//            newImpFactory: { _ in
+//                method_getImplementation(swizzledMethod)
+//            },
+//            mode: .always,
+//            key: nil
+//        )
     }
 
 
