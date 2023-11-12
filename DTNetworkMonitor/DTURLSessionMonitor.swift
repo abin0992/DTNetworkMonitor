@@ -10,7 +10,7 @@ import InterposeKit
 
 @objcMembers
 public class DTURLSessionMonitor: NSObject {
-    private var session: URLSession
+  //  private var session: URLSession
     var taskDatas: NSMutableDictionary = [:]
   //  var taskDatas: [URLSessionTask: DTURLSessionTaskData] = [:]
     let queue = DispatchQueue(
@@ -18,49 +18,30 @@ public class DTURLSessionMonitor: NSObject {
         attributes: .concurrent
     )
 
-    @objc
-    public init(session: URLSession = .shared) {
-        self.session = session
+    // Singleton instance
+    public static let shared = DTURLSessionMonitor()
+
+    // Private initializer to prevent external instantiation
+    private override init() {
         self.taskDatas = [:]
         // Setup swizzling if needed
+   //     swizzleAllURLSessionTaskMethods()
     }
+//    @objc
+//    public init(session: URLSession = .shared) {
+//        self.session = session
+//        self.taskDatas = [:]
+//        // Setup swizzling if needed
+//    }
 
     @objc
-    public static func startLogging() {
-        do {
-            let originalSelector = #selector(URLSession.dataTask(with:completionHandler:) as (URLSession) -> (URLRequest, @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask)
-            
-            let interposer = try Interpose(URLSession.self) {
-                try $0.hook(
-                    originalSelector,
-                    methodSignature: (@convention(c) (URLSession, Selector, URLRequest, @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask).self,
-                    hookSignature: (@convention(block) (URLSession, URLRequest, @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask).self
-                ) { store in
-                    return { `self`, request, completionHandler in
-                        let startTime = Date()
-                        
-                        print("----------  URL: \(request.url?.absoluteString ?? "")")
-                        
-                        let originalCompletionHandler: (Data?, URLResponse?, Error?) -> Void = { data, response, error in
-                            let endTime = Date()
-                            let duration = endTime.timeIntervalSince(startTime)
-                            
-                            print("---------- Duration: \(duration) seconds")
-                            
-                            if let httpResponse = response as? HTTPURLResponse, let redirectURL = httpResponse.url, redirectURL != request.url {
-                                print("---------- Redirection occurred to: \(redirectURL.absoluteString)")
-                            }
-                            
-                            completionHandler(data, response, error)
-                        }
-                        
-                        return store.original(`self`, store.selector, request, originalCompletionHandler)
-                    }
-                }
-            }
-        } catch {
-            print("Error setting up Interpose: \(error)")
-        }
+    public func startURLSessionMonitoring() {
+        swizzleDownloadTaskWithData()
+        swizzleDownloadTaskWithCompletionHandler()
+        swizzleUploadTaskWithData()
+        swizzleUploadTaskWithDataAndCompletionHandler()
+        swizzleUploadTaskWithFile()
+        swizzleUploadTaskWithFileAndCompletionHandler()
     }
 }
 
