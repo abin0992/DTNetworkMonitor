@@ -12,8 +12,8 @@
 		1661193B2AFD893C00AB058E /* DTNetworkMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 1661192F2AFD893C00AB058E /* DTNetworkMonitor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16AFB1B72B0129A300AB2979 /* DTURLSessionTaskData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AFB1B32B0129A300AB2979 /* DTURLSessionTaskData.swift */; };
 		16AFB1B82B0129A300AB2979 /* DTURLSessionMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AFB1B42B0129A300AB2979 /* DTURLSessionMonitor.swift */; };
-		16AFB1B92B0129A300AB2979 /* URLSessionSwizzlingExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AFB1B52B0129A300AB2979 /* URLSessionSwizzlingExtensions.swift */; };
 		16AFB1BA2B0129A300AB2979 /* DTURLSessionMonitor+Tracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AFB1B62B0129A300AB2979 /* DTURLSessionMonitor+Tracking.swift */; };
+		16AFB1C02B0143E900AB2979 /* DTURLSessionMonitor+URLSessionSwizzling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AFB1BF2B0143E900AB2979 /* DTURLSessionMonitor+URLSessionSwizzling.swift */; };
 		16B60BDC2B0024C3005394B0 /* InterposeKit in Frameworks */ = {isa = PBXBuildFile; productRef = 16B60BDB2B0024C3005394B0 /* InterposeKit */; };
 		16B60BE82B00329E005394B0 /* DTURLSessionMonitor-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = 16B60BE72B00329E005394B0 /* DTURLSessionMonitor-Bridging-Header.h */; };
 /* End PBXBuildFile section */
@@ -35,8 +35,8 @@
 		166119392AFD893C00AB058E /* DTNetworkMonitorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTNetworkMonitorTests.swift; sourceTree = "<group>"; };
 		16AFB1B32B0129A300AB2979 /* DTURLSessionTaskData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DTURLSessionTaskData.swift; path = Sources/DTNetworkMonitor/DTURLSessionTaskData.swift; sourceTree = SOURCE_ROOT; };
 		16AFB1B42B0129A300AB2979 /* DTURLSessionMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DTURLSessionMonitor.swift; path = Sources/DTNetworkMonitor/DTURLSessionMonitor.swift; sourceTree = SOURCE_ROOT; };
-		16AFB1B52B0129A300AB2979 /* URLSessionSwizzlingExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = URLSessionSwizzlingExtensions.swift; path = Sources/DTNetworkMonitor/URLSessionSwizzlingExtensions.swift; sourceTree = SOURCE_ROOT; };
 		16AFB1B62B0129A300AB2979 /* DTURLSessionMonitor+Tracking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "DTURLSessionMonitor+Tracking.swift"; path = "Sources/DTNetworkMonitor/DTURLSessionMonitor+Tracking.swift"; sourceTree = SOURCE_ROOT; };
+		16AFB1BF2B0143E900AB2979 /* DTURLSessionMonitor+URLSessionSwizzling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "DTURLSessionMonitor+URLSessionSwizzling.swift"; path = "Sources/DTNetworkMonitor/DTURLSessionMonitor+URLSessionSwizzling.swift"; sourceTree = SOURCE_ROOT; };
 		16B60BE72B00329E005394B0 /* DTURLSessionMonitor-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DTURLSessionMonitor-Bridging-Header.h"; sourceTree = "<group>"; };
 		16F668C82AFFBCB9005ACF2B /* RSSwizzle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RSSwizzle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16F668CD2AFFBE14005ACF2B /* RSSwizzle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RSSwizzle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -84,12 +84,12 @@
 		1661192E2AFD893C00AB058E /* DTNetworkMonitor */ = {
 			isa = PBXGroup;
 			children = (
-				16AFB1B42B0129A300AB2979 /* DTURLSessionMonitor.swift */,
-				16AFB1B62B0129A300AB2979 /* DTURLSessionMonitor+Tracking.swift */,
-				16AFB1B32B0129A300AB2979 /* DTURLSessionTaskData.swift */,
-				16AFB1B52B0129A300AB2979 /* URLSessionSwizzlingExtensions.swift */,
 				1661192F2AFD893C00AB058E /* DTNetworkMonitor.h */,
 				16B60BE72B00329E005394B0 /* DTURLSessionMonitor-Bridging-Header.h */,
+				16AFB1B42B0129A300AB2979 /* DTURLSessionMonitor.swift */,
+				16AFB1B62B0129A300AB2979 /* DTURLSessionMonitor+Tracking.swift */,
+				16AFB1BF2B0143E900AB2979 /* DTURLSessionMonitor+URLSessionSwizzling.swift */,
+				16AFB1B32B0129A300AB2979 /* DTURLSessionTaskData.swift */,
 			);
 			path = DTNetworkMonitor;
 			sourceTree = "<group>";
@@ -231,8 +231,8 @@
 			files = (
 				16AFB1B72B0129A300AB2979 /* DTURLSessionTaskData.swift in Sources */,
 				16AFB1B82B0129A300AB2979 /* DTURLSessionMonitor.swift in Sources */,
+				16AFB1C02B0143E900AB2979 /* DTURLSessionMonitor+URLSessionSwizzling.swift in Sources */,
 				16AFB1BA2B0129A300AB2979 /* DTURLSessionMonitor+Tracking.swift in Sources */,
-				16AFB1B92B0129A300AB2979 /* URLSessionSwizzlingExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

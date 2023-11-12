@@ -10,9 +10,7 @@ import InterposeKit
 
 @objcMembers
 public class DTURLSessionMonitor: NSObject {
-  //  private var session: URLSession
     var taskDatas: NSMutableDictionary = [:]
-  //  var taskDatas: [URLSessionTask: DTURLSessionTaskData] = [:]
     let queue = DispatchQueue(
         label: "URLSessionTrackerQueue",
         attributes: .concurrent
@@ -23,19 +21,18 @@ public class DTURLSessionMonitor: NSObject {
 
     // Private initializer to prevent external instantiation
     private override init() {
-        self.taskDatas = [:]
-        // Setup swizzling if needed
-   //     swizzleAllURLSessionTaskMethods()
+        super.init()
+        startURLSessionMonitoring()
     }
-//    @objc
-//    public init(session: URLSession = .shared) {
-//        self.session = session
-//        self.taskDatas = [:]
-//        // Setup swizzling if needed
-//    }
+}
+
+private extension DTURLSessionMonitor {
 
     @objc
-    public func startURLSessionMonitoring() {
+    func startURLSessionMonitoring() {
+        swizzleDataTaskWithRequest()
+        swizzleDownloadTaskWithRequest()
+        swizzleUploadTaskWithRequest()
         swizzleDownloadTaskWithData()
         swizzleDownloadTaskWithCompletionHandler()
         swizzleUploadTaskWithData()
@@ -43,9 +40,6 @@ public class DTURLSessionMonitor: NSObject {
         swizzleUploadTaskWithFile()
         swizzleUploadTaskWithFileAndCompletionHandler()
     }
-}
-
-private extension DTURLSessionMonitor {
 
     func getTaskData(for sessionTask: URLSessionTask) -> DTURLSessionTaskData? {
         var taskData: DTURLSessionTaskData?
@@ -88,5 +82,15 @@ extension DTURLSessionMonitor {
     private func formatTaskDataForFile(_ taskData: DTURLSessionTaskData) -> String {
         // Format the task data into a string suitable for file writing
         return ""
+    }
+}
+
+// Logging and tracking methods
+extension DTURLSessionMonitor {
+    func trackURL(of sessionTask: URLSessionTask, request: URLRequest) {
+        // Log the URL or perform any other tracking/logging operations here
+        if let url = request.url {
+            print("API call: \(url.absoluteString)")
+        }
     }
 }

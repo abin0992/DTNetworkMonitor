@@ -1,5 +1,5 @@
 //
-//  URLSessionSwizzlingExtensions.swift
+//  DTURLSessionMonitor+URLSessionSwizzling.swift
 //  DTNetworkMonitor
 //
 //  Created by Abin Baby on 11.11.23.
@@ -9,6 +9,21 @@ import Foundation
 import InterposeKit
 
 extension DTURLSessionMonitor {
+
+    func swizzleDataTaskWithRequest() {
+        let originalSelector = #selector(URLSession.dataTask(with:completionHandler:) as (URLSession) -> (URLRequest, @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask)
+        swizzleMethod(originalSelector: originalSelector)
+    }
+
+    func swizzleDownloadTaskWithRequest() {
+        let originalSelector = #selector(URLSession.downloadTask(with:completionHandler:) as (URLSession) -> (URLRequest, @escaping (URL?, URLResponse?, Error?) -> Void) -> URLSessionDownloadTask)
+        swizzleMethod(originalSelector: originalSelector)
+    }
+
+    func swizzleUploadTaskWithRequest() {
+        let originalSelector = #selector(URLSession.uploadTask(with:from:completionHandler:) as (URLSession) -> (URLRequest, Data, @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionUploadTask)
+        swizzleMethod(originalSelector: originalSelector)
+    }
 
     func swizzleDownloadTaskWithData() {
         let originalSelector = #selector(URLSession.downloadTask(with:) as (URLSession) -> (URL) -> URLSessionDownloadTask)
@@ -40,43 +55,6 @@ extension DTURLSessionMonitor {
         let originalSelector = #selector(URLSession.uploadTask(with:fromFile:completionHandler:) as (URLSession) -> (URLRequest, URL, @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionUploadTask)
         swizzleMethod(originalSelector: originalSelector)
     }
-
-//    func swizzleMethod(originalSelector: Selector) {
-//        do {
-//            let interposer = try Interpose(URLSession.self) {
-//                try $0.hook(
-//                    originalSelector,
-//                    methodSignature: (@convention(c) (URLSession, Selector, URLRequest, @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask).self,
-//                    hookSignature: (@convention(block) (URLSession, URLRequest, @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask).self
-//                ) {  store in
-//                    return { `self`, request, completionHandler in
-//                        let sessionTask = store.original(`self`, store.selector, request, completionHandler)
-//
-//                        self.trackStart(of: sessionTask)
-//
-//                        print("----------  URL: \(request.url?.absoluteString ?? "")")
-//
-//                        let originalCompletionHandler: (Data?, URLResponse?, Error?) -> Void = { data, response, error in
-//                            let endTime = Date()
-//                            let duration = endTime.timeIntervalSince(startTime)
-//
-//                            print("---------- Duration: \(duration) seconds")
-//
-//                            if let httpResponse = response as? HTTPURLResponse, let redirectURL = httpResponse.url, redirectURL != request.url {
-//                                print("---------- Redirection occurred to: \(redirectURL.absoluteString)")
-//                            }
-//
-//                            completionHandler(data, response, error)
-//                        }
-//
-//                        return store.original(`self`, store.selector, request, originalCompletionHandler)
-//                    }
-//                }
-//            }
-//        } catch {
-//            print("Error setting up Interpose: \(error)")
-//        }
-//    }
 }
 
 extension DTURLSessionMonitor {
@@ -102,11 +80,7 @@ extension DTURLSessionMonitor {
                             completionHandler(data, response, error)
                         }
 
-                        // Assuming sessionTask can store a modified completion handler
-                   //     sessionTask.originalCompletionHandler = modifiedCompletionHandler
                         return store.original(`self`, store.selector, request, modifiedCompletionHandler)
-                    //    return sessionTask
-                        
                     }
                 }
             }
