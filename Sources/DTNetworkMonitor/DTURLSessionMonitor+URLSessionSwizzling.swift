@@ -11,6 +11,11 @@ import InterposeKit
 extension DTURLSessionMonitor {
 
     func swizzleDataTaskWithRequest() {
+        let originalSelector = #selector(URLSession.dataTask(with:) as (URLSession) -> (URL) -> URLSessionDataTask)
+        swizzleMethod(originalSelector: originalSelector)
+    }
+
+    func swizzleDataTaskWithCompletionRequest() {
         let originalSelector = #selector(URLSession.dataTask(with:completionHandler:) as (URLSession) -> (URLRequest, @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask)
         swizzleMethod(originalSelector: originalSelector)
     }
@@ -70,22 +75,38 @@ extension DTURLSessionMonitor {
                         let sessionTask = store.original(`self`, store.selector, request, completionHandler)
                         DTURLSessionMonitor.shared.trackStart(of: sessionTask)
                         let modifiedCompletionHandler: (Data?, URLResponse?, Error?) -> Void = { data, response, error in
-                            let wasSuccessful = error == nil
-                            DTURLSessionMonitor.shared.trackCompletion(of: sessionTask, wasSuccessful: wasSuccessful)
 
-                            if let httpResponse = response as? HTTPURLResponse, let redirectURL = httpResponse.url, redirectURL != request.url {
-                                DTURLSessionMonitor.shared.trackRedirection(of: sessionTask, to: redirectURL)
+                            var finalUrl: URL?
+                            if 
+                                let httpResponse = response as? HTTPURLResponse,
+                                let redirectURL = httpResponse.url,
+                                redirectURL.absoluteString != request.url?.absoluteString
+                            {
+                                finalUrl = redirectURL
                             }
+                            
+                            let wasSuccessful = error == nil
+                            DTURLSessionMonitor.shared.trackCompletion(
+                                of: sessionTask,
+                                finalURL: finalUrl,
+                                wasSuccessful: wasSuccessful
+                            )
 
                             completionHandler(data, response, error)
                         }
 
-                        return store.original(`self`, store.selector, request, modifiedCompletionHandler)
+                        return store.original(
+                            `self`,
+                            store.selector,
+                            request,
+                            modifiedCompletionHandler
+                        )
                     }
                 }
             }
         } catch {
-            print("Error setting up Interpose: \(error)")
+            let selectorName = String(describing: originalSelector)
+            DLog(" \(selectorName) - Error setting up Interpose: \(error)")
         }
     }
 }

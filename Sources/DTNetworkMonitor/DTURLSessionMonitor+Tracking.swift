@@ -10,35 +10,35 @@ import Foundation
 extension DTURLSessionMonitor {
 
     func trackStart(of sessionTask: URLSessionTask) {
-        print("----> Network monitor - track start action \(sessionTask.originalRequest?.url?.absoluteString ?? "")")
         let taskData = DTURLSessionTaskData(
             initialURL: sessionTask.originalRequest?.url ?? URL(string: "https://example.com")!,
-            startTime: Date()
+            startTime: Date(),
+            wasSuccessful: false
         )
         queue.async(flags: .barrier) {
-            self.taskDatas[sessionTask] = taskData
+            self.taskDatas[sessionTask.taskIdentifier] = taskData
         }
+
     }
 
-    func trackCompletion(of sessionTask: URLSessionTask, wasSuccessful: Bool) {
-        print("----> Network monitor - track complete action \(wasSuccessful)")
+    func trackCompletion(
+        of sessionTask: URLSessionTask,
+        finalURL: URL?,
+        wasSuccessful: Bool
+    ) {
+        
         queue.async(flags: .barrier) {
-            guard let taskData = self.taskDatas[sessionTask] as? DTURLSessionTaskData else { return }
+            guard let taskData = self.taskDatas[sessionTask.taskIdentifier] as? DTURLSessionTaskData else { return }
             let endTime = Date()
-            let duration = endTime.timeIntervalSince(taskData.startTime)
-            let finalURL = taskData.finalURL ?? taskData.initialURL
-            print("\(taskData.initialURL), \(duration * 1000)ms, \(finalURL), \(wasSuccessful ? "SUCCESS" : "FAILURE")")
 
             taskData.endTime = endTime
             taskData.wasSuccessful = wasSuccessful
-        }
-    }
-
-    func trackRedirection(of sessionTask: URLSessionTask, to finalURL: URL) {
-        print("----> Network monitor - track redirect action \(finalURL)")
-        queue.async(flags: .barrier) {
-            if let taskData = self.taskDatas[sessionTask] as? DTURLSessionTaskData {
+            if let finalURL {
                 taskData.finalURL = finalURL
+            }
+            let logEntry = self.formatTaskDataForFile(taskData)
+            if let fileManager = self.dtFileManager {
+                fileManager.save(logEntry)
             }
         }
     }

@@ -8,19 +8,19 @@
 import Foundation
 
 @objcMembers
-public class DTURLSessionTaskData: NSObject {
+class DTURLSessionTaskData: NSObject {
     let initialURL: URL
     let startTime: Date
     var endTime: Date?
     var finalURL: URL?
-    var wasSuccessful: Bool? // Using NSNumber for optional Bool
+    var wasSuccessful: Bool
 
     init(
         initialURL: URL,
         startTime: Date,
         endTime: Date? = nil,
         finalURL: URL? = nil,
-        wasSuccessful: Bool? = nil
+        wasSuccessful: Bool
     ) {
         self.initialURL = initialURL
         self.startTime = startTime
