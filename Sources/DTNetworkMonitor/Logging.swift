@@ -7,7 +7,7 @@
 
 import Foundation
 
-public func DLog(
+func DLog(
     _ message: String,
     filename: String = #file,
     function: String = #function,
