@@ -11,7 +11,7 @@ on:
 
 jobs:
   Build:
-    runs-on: macos-latest
+    runs-on: macos-latest-xlarge
 
     steps:
     - name: checkout
@@ -31,7 +31,7 @@ jobs:
 
 
   Test:
-    runs-on: macos-latest
+    runs-on: macos-latest-xlarge
 
     steps:
     - name: Checkout
