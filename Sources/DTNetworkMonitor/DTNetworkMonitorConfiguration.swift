@@ -24,6 +24,7 @@ public class DTNetworkMonitorConfiguration: NSObject {
             let swizzler = DTURLSessionSwizzler(monitor: taskMonitor)
             swizzler.startURLSessionMonitoring()
             self.swizzler = swizzler // Retain the swizzler instance
+            DLog("Started Monitoring")
         } catch {
             DLog("Failed to initialize components: \(error)")
         }
