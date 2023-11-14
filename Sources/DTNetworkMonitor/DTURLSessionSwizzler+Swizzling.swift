@@ -8,62 +8,65 @@
 import Foundation
 import InterposeKit
 
-extension DTURLSessionMonitor {
+extension DTURLSessionSwizzler {
 
-    func swizzleDataTaskWithRequest() {
+    func swizzleDataTaskWithRequest(_ monitor: URLSessionTaskMonitorable) {
         let originalSelector = #selector(URLSession.dataTask(with:) as (URLSession) -> (URL) -> URLSessionDataTask)
-        swizzleMethod(originalSelector: originalSelector)
+        swizzleMethod(originalSelector: originalSelector, monitor: monitor)
     }
 
-    func swizzleDataTaskWithCompletionRequest() {
+    func swizzleDataTaskWithCompletionRequest(_ monitor: URLSessionTaskMonitorable) {
         let originalSelector = #selector(URLSession.dataTask(with:completionHandler:) as (URLSession) -> (URLRequest, @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask)
-        swizzleMethod(originalSelector: originalSelector)
+        swizzleMethod(originalSelector: originalSelector, monitor: monitor)
     }
 
-    func swizzleDownloadTaskWithRequest() {
+    func swizzleDownloadTaskWithRequest(_ monitor: URLSessionTaskMonitorable) {
         let originalSelector = #selector(URLSession.downloadTask(with:completionHandler:) as (URLSession) -> (URLRequest, @escaping (URL?, URLResponse?, Error?) -> Void) -> URLSessionDownloadTask)
-        swizzleMethod(originalSelector: originalSelector)
+        swizzleMethod(originalSelector: originalSelector, monitor: monitor)
     }
 
-    func swizzleUploadTaskWithRequest() {
+    func swizzleUploadTaskWithRequest(_ monitor: URLSessionTaskMonitorable) {
         let originalSelector = #selector(URLSession.uploadTask(with:from:completionHandler:) as (URLSession) -> (URLRequest, Data, @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionUploadTask)
-        swizzleMethod(originalSelector: originalSelector)
+        swizzleMethod(originalSelector: originalSelector, monitor: monitor)
     }
 
-    func swizzleDownloadTaskWithData() {
+    func swizzleDownloadTaskWithData(_ monitor: URLSessionTaskMonitorable) {
         let originalSelector = #selector(URLSession.downloadTask(with:) as (URLSession) -> (URL) -> URLSessionDownloadTask)
-        swizzleMethod(originalSelector: originalSelector)
+        swizzleMethod(originalSelector: originalSelector, monitor: monitor)
     }
     
 
-    func swizzleDownloadTaskWithCompletionHandler() {
+    func swizzleDownloadTaskWithCompletionHandler(_ monitor: URLSessionTaskMonitorable) {
         let originalSelector = #selector(URLSession.downloadTask(with:completionHandler:) as (URLSession) -> (URL, @escaping (URL?, URLResponse?, Error?) -> Void) -> URLSessionDownloadTask)
-        swizzleMethod(originalSelector: originalSelector)
+        swizzleMethod(originalSelector: originalSelector, monitor: monitor)
     }
 
-    func swizzleUploadTaskWithData() {
+    func swizzleUploadTaskWithData(_ monitor: URLSessionTaskMonitorable) {
         let originalSelector = #selector(URLSession.uploadTask(with:from:) as (URLSession) -> (URLRequest, Data) -> URLSessionUploadTask)
-        swizzleMethod(originalSelector: originalSelector)
+        swizzleMethod(originalSelector: originalSelector, monitor: monitor)
     }
 
-    func swizzleUploadTaskWithDataAndCompletionHandler() {
+    func swizzleUploadTaskWithDataAndCompletionHandler(_ monitor: URLSessionTaskMonitorable) {
         let originalSelector = #selector(URLSession.uploadTask(with:from:completionHandler:) as (URLSession) -> (URLRequest, Data, @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionUploadTask)
-        swizzleMethod(originalSelector: originalSelector)
+        swizzleMethod(originalSelector: originalSelector, monitor: monitor)
     }
 
-    func swizzleUploadTaskWithFile() {
+    func swizzleUploadTaskWithFile(_ monitor: URLSessionTaskMonitorable) {
         let originalSelector = #selector(URLSession.uploadTask(with:fromFile:) as (URLSession) -> (URLRequest, URL) -> URLSessionUploadTask)
-        swizzleMethod(originalSelector: originalSelector)
+        swizzleMethod(originalSelector: originalSelector, monitor: monitor)
     }
 
-    func swizzleUploadTaskWithFileAndCompletionHandler() {
+    func swizzleUploadTaskWithFileAndCompletionHandler(_ monitor: URLSessionTaskMonitorable) {
         let originalSelector = #selector(URLSession.uploadTask(with:fromFile:completionHandler:) as (URLSession) -> (URLRequest, URL, @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionUploadTask)
-        swizzleMethod(originalSelector: originalSelector)
+        swizzleMethod(originalSelector: originalSelector, monitor: monitor)
     }
 }
 
-extension DTURLSessionMonitor {
-    func swizzleMethod(originalSelector: Selector) {
+extension DTURLSessionSwizzler {
+    func swizzleMethod(
+        originalSelector: Selector,
+        monitor: URLSessionTaskMonitorable
+    ) {
         do {
             let interposer = try Interpose(URLSession.self) {
                 try $0.hook(
@@ -73,7 +76,7 @@ extension DTURLSessionMonitor {
                 ) { store in
                     return { `self`, request, completionHandler in
                         let sessionTask = store.original(`self`, store.selector, request, completionHandler)
-                        DTURLSessionMonitor.shared.trackStart(of: sessionTask)
+                        monitor.trackStart(of: sessionTask)
                         let modifiedCompletionHandler: (Data?, URLResponse?, Error?) -> Void = { data, response, error in
 
                             var finalUrl: URL?
@@ -86,7 +89,7 @@ extension DTURLSessionMonitor {
                             }
                             
                             let wasSuccessful = error == nil
-                            DTURLSessionMonitor.shared.trackCompletion(
+                            monitor.trackCompletion(
                                 of: sessionTask,
                                 finalURL: finalUrl,
                                 wasSuccessful: wasSuccessful
