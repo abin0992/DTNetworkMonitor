@@ -21,6 +21,7 @@ class DTFileManager: Loggable {
 
     init(fileManager: FileManager = .default) throws {
         self.fileManager = fileManager
+
         let logsDirectory = try fileManager.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("DTNetworkMonitor", isDirectory: true)
 
         if !fileManager.fileExists(atPath: logsDirectory.path) {
