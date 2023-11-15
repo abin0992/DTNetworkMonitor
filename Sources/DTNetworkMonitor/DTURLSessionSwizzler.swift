@@ -8,10 +8,11 @@
 import Foundation
 import InterposeKit
 
-protocol URLSessionSwizzling {
+protocol URLSessionSwizzling: NSObject {
     func startURLSessionMonitoring()
 }
 
+@objcMembers
 class DTURLSessionSwizzler: NSObject, URLSessionSwizzling {
     
     let monitor: URLSessionTaskMonitorable

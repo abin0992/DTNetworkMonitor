@@ -16,7 +16,6 @@ public class DTNetworkMonitorConfiguration: NSObject {
         super.init()
     }
 
-    @objc
     public func startMonitoring() {
         do {
             let fileManager = try DTFileManager()
