@@ -8,7 +8,7 @@
 import Foundation
 @testable import DTNetworkMonitor
 
-class MockURLSessionTaskMonitorable: URLSessionTaskMonitorable {
+class MockURLSessionTaskMonitorable: NSObject, URLSessionTaskMonitorable {
     var startCalled = false
     var completionCalled = false
 
