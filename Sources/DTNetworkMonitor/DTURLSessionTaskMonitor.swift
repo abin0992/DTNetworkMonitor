@@ -7,12 +7,13 @@
 
 import Foundation
 
-protocol URLSessionTaskMonitorable {
+protocol URLSessionTaskMonitorable: NSObject {
     func trackStart(of sessionTask: URLSessionTask)
     func trackCompletion(of sessionTask: URLSessionTask, finalURL: URL?, wasSuccessful: Bool)
 }
 
-class DTURLSessionTaskMonitor: URLSessionTaskMonitorable {
+@objcMembers
+class DTURLSessionTaskMonitor: NSObject, URLSessionTaskMonitorable {
 
     var taskDatas: NSMutableDictionary = [:]
     private let queue = DispatchQueue(

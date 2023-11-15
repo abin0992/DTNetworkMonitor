@@ -7,6 +7,7 @@
 
 import Foundation
 
+@objcMembers
 class DTURLSessionTaskData: NSObject {
     let initialURL: URL
     let startTime: Date

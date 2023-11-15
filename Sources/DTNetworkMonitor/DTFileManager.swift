@@ -7,14 +7,15 @@
 
 import Foundation
 
-protocol Loggable {
+protocol Loggable: NSObject {
     func save(
         _ logEntry: String,
         completion: @escaping (Result<Void, Error>) -> Void
     )
 }
 
-class DTFileManager: Loggable {
+@objcMembers
+class DTFileManager: NSObject, Loggable {
     private let queue = DispatchQueue(label: "com.DTNetworkMonitor.FileLogger", attributes: .concurrent)
     private let fileManager: FileManager
     let fileURL: URL
