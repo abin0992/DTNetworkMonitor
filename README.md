@@ -8,6 +8,12 @@ DTNetworkMonitor is a lightweight framework for monitoring network activity in y
 - Automatic interception of all `URLSession` data tasks, upload tasks, and download tasks.
 - Detailed logging of network requests and responses.
 
+#### Path to saved log file
+1. Download container from device 
+2. Right click -> Show Package Contents
+3. Open AppData folder
+![alt text](https://github.com/abin0992/GHFollowers/blob/CI-integration/.screenshot/path.png?raw=true)
+
 ## Requirements
 
 - iOS 13.0+
