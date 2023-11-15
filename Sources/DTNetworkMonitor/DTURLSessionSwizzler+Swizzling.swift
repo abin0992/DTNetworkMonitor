@@ -67,6 +67,8 @@ extension DTURLSessionSwizzler {
         originalSelector: Selector,
         monitor: URLSessionTaskMonitorable
     ) {
+        let selectorName = String(describing: originalSelector)
+        DLog("\(selectorName)")
         do {
             let interposer = try Interpose(URLSession.self) {
                 try $0.hook(

@@ -50,6 +50,7 @@ class DTFileManager: NSObject, Loggable {
                 }
                 completion(.success(()))
             } catch {
+                DLog("Error occurred while saving log entry: \(error)")
                 completion(.failure(error))
             }
         }
