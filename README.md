@@ -55,7 +55,7 @@ Objective-C Project
 For an Objective-C project, you need to import the DTNetworkMonitor module in your AppDelegate and start the monitoring process.
 ```
 #import <UIKit/UIKit.h>
-#import <DTNetworkMonitor/DTNetworkMonitor.h>
+@import DTNetworkMonitor;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
