@@ -1,4 +1,4 @@
-# DTNetworkMonitor [![Build](https://github.com/abin0992/DTNetworkMonitor/actions/workflows/swift.yml/badge.svg)](https://github.com/abin0992/DTNetworkMonitor/actions/workflows/swift.yml) 
+# DTNetworkMonitor [![Swift](https://github.com/abin0992/DTNetworkMonitor/actions/workflows/CI-Build.yml/badge.svg)](https://github.com/abin0992/DTNetworkMonitor/actions/workflows/CI-Build.yml)
 
 DTNetworkMonitor is a lightweight framework for monitoring network activity in your iOS applications. It provides an easy way to intercept and log network requests and responses made through `URLSession`.
 
