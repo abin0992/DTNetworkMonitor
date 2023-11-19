@@ -8,7 +8,7 @@
 import Foundation
 
 @objcMembers
-public class DTNetworkMonitorConfiguration: NSObject {
+final public class DTNetworkMonitorConfiguration: NSObject {
     public static let shared = DTNetworkMonitorConfiguration()
     private var swizzler: URLSessionSwizzling?
 
